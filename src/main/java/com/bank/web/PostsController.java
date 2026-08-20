@@ -70,6 +70,6 @@ public class PostsController {
 
     @GetMapping("/test")
     public String test() {
-        return "API is reachable";
+        return "API is reachable  with new  azure  pipeline";
     }
 }

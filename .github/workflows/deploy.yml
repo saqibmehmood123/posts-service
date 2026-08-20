@@ -29,3 +29,19 @@ jobs:
         run: |
           docker tag posts-service postsregistryvv96c9.azurecr.io/posts-service:latest
           docker push postsregistryvv96c9.azurecr.io/posts-service:latest
+
+      - name: Get AKS credentials
+        run: |
+          az aks get-credentials \
+          --resource-group terraform-demo-rg \
+          --name posts-aks-cluster \
+          --overwrite-existing
+
+      - name: Deploy to AKS
+        run: |
+          kubectl set image deployment/posts-service \
+          posts-service=postsregistryvv96c9.azurecr.io/posts-service:latest
+
+      - name: Verify deployment
+        run: |
+          kubectl rollout status deployment/posts-service
