@@ -1,0 +1,27 @@
+name: Deploy Posts Service
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t posts-service .
+
+      - name: Login to Azure
+        uses: azure/login@v2
+
+      - name: Login to ACR
+        run:  az acr login --name postsregistryvv96c9
+      - name: Push image to ACR
+        run: |
+          docker tag posts-service postsregistryvv96c9.azurecr.io/posts-service:latest
+          docker push postsregistryvv96c9.azurecr.io/posts-service:latest   

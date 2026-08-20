@@ -1,0 +1,12 @@
+com/bank/postscomments/CommentDTO$CommentDTOBuilder.class
+com/bank/dao/PostsJpa.class
+com/bank/postscomments/CommentDTO.class
+com/bank/services/PostsServices.class
+com/bank/postscomments/PostWithCommentsDTO.class
+com/bank/configuration/RestTemplateConfig.class
+com/bank/postscomments/PostWithCommentsDTO$PostWithCommentsDTOBuilder.class
+com/bank/PostsApplication.class
+com/bank/web/PostsController.class
+com/bank/model/Order.class
+com/bank/configuration/KafkaTopicConfig.class
+com/bank/model/Posts.class

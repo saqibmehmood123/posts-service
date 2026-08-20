@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: post-service         #  this name of pod  inside container  
+  namespace: comments
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: post-service      #     manage  only oids that have lable  post-service 
+  template:
+    metadata:
+      labels:
+        app: post-service   #  “Send traffic to pods with this label.” this goes in service.yaml file 
+    spec:
+      tolerations:
+        - key: "eks.amazonaws.com/fargate-profile"
+          operator: "Exists"
+          effect: "NoSchedule"
+      serviceAccountName: post-service-sa
+      containers:
+        - name:  post-service
+          image: 617287375832.dkr.ecr.eu-north-1.amazonaws.com/posts-app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8082
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://10.0.1.191:3306/posts?useSSL=true&requireSSL=true
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: post-db-secret
+                  key: username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: post-db-secret
+                  key: password
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1024Mi"
+            limits:
+              cpu: "1000m"
+              memory: "2048Mi"
+
