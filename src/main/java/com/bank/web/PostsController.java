@@ -70,6 +70,6 @@ public class PostsController {
 
     @GetMapping("/test")
     public String test() {
-        return "this is resposen after azure  ci/cd pipeline";
+        return "  hello siddique bhai , how are you ?";
     }
 }
