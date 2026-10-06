@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: post-service
+  namespace: blog-app
+
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: post-service
+
+  template:
+    metadata:
+      labels:
+        app: post-service
+
+    spec:
+      containers:
+        - name: post-service
+          image: posts-service:2.0
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 8082
+
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: posts-config
+                  key: SPRING_DATASOURCE_URL
+
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: posts-db-secret
+                  key: SPRING_DATASOURCE_USERNAME
+
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: posts-db-secret
+                  key: SPRING_DATASOURCE_PASSWORD
