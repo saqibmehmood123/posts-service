@@ -37,6 +37,9 @@ public class PostsController {
         kafkaTemplate.send("order", order);      // topic = order
         return "Message sent to MSK!";
     }
+
+
+kubectl exec -it deployment/api-gateway -n ecommerce -- curl http://post-service:8082/posts/getAll
 */
 
 
